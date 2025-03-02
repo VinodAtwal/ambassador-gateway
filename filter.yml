@@ -1,0 +1,31 @@
+apiVersion: getambassador.io/v3alpha1
+kind: Filter
+metadata:
+  name: jwt-claim-extractor
+  namespace: ambassador
+spec:
+  JWT:
+    # Disable signature validation by allowing 'none' algorithm
+    jwksURI: "http://host.docker.internal:8080/realms/test/protocol/openid-connect/certs"
+    insecureTLS: true
+
+    # validAlgorithms: ["none"]
+
+    # Extract 'user_id' claim from JWT and add to header
+    injectRequestHeaders:
+      - name: "X-ACCOUNT-ID"
+        value: "{{ .token.Claims.test }}"
+
+    # Disable all validation checks
+    requireAudience: false
+    requireIssuer: false
+    requireExpiresAt: false
+    requireNotBefore: false
+    requireIssuedAt: false
+
+    # Optional: Add error handling
+    errorResponse:
+      headers:
+        - name: "Content-Type"
+          value: "application/json"
+      bodyTemplate: '{"error": "JWT processing failed"}'

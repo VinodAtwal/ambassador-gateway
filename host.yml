@@ -1,0 +1,14 @@
+# insecure-host.yaml
+apiVersion: getambassador.io/v2
+kind: Host
+metadata:
+  name: insecure-host
+  namespace: ambassador
+spec:
+  hostname: "*"
+  acmeProvider:
+    authority: none
+  requestPolicy:
+    insecure:
+      action: Route
+      additionalPort: 8080

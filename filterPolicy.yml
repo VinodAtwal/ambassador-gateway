@@ -1,0 +1,12 @@
+apiVersion: getambassador.io/v3alpha1
+kind: FilterPolicy
+metadata:
+  name: jwt-filter-policy
+  namespace: ambassador
+spec:
+  rules:
+    - host: "*"
+      path: "*"
+      filters:
+        - name: jwt-claim-extractor # Match your Filter name
+          namespace: ambassador # Match your Filter namespace

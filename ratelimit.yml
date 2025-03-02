@@ -1,0 +1,21 @@
+# simple-rate-limit.yaml
+apiVersion: getambassador.io/v3alpha1
+kind: RateLimit
+metadata:
+  name: simple-rate-limit
+  namespace: ambassador
+spec:
+  domain: ambassador
+  limits:
+    - name: token-name-per-client-type
+      action: Enforce
+      pattern:
+        - user_id: ""
+      rate: 5
+      unit: "minute"
+    - name: token-name-per-client-type
+      action: Enforce
+      pattern:
+        - client_type: ""
+      rate: 3
+      unit: "minute"
